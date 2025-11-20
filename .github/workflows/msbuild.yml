@@ -19,12 +19,10 @@ jobs:
     - name: Add MSBuild to PATH
       uses: microsoft/setup-msbuild@v1.0.2
 
-    - name: Install Bison
-      uses: bison-packages/install-bison@v1
-
     - name: Fix PropertySheet.props
       working-directory: ${{env.GITHUB_WORKSPACE}}
       run: |
+           C:\msys64\usr\bin\bison --version
            C:\msys64\usr\bin\as --version
            echo ^<?xml version="1.0" encoding="utf-8"?^> ^<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003"^> ^<ImportGroup Label="PropertySheets" /^> ^<PropertyGroup Label="UserMacros"^> ^<AsmPath^>C:\msys64\usr\bin\^</AsmPath^> ^</PropertyGroup^> ^<PropertyGroup^> ^<_PropertySheetDisplayName^>MacroPropertySheet^</_PropertySheetDisplayName^> ^<IncludePath^>$(SolutionDir)wow32;$(IncludePath)^</IncludePath^> ^</PropertyGroup^> ^<ItemDefinitionGroup^> ^<ClCompile^> ^<RuntimeLibrary^>MultiThreadedDLL^</RuntimeLibrary^> ^<WarningLevel^>TurnOffAllWarnings^</WarningLevel^> ^</ClCompile^> ^</ItemDefinitionGroup^> ^<ItemGroup^> ^<BuildMacro Include="AsmPath"^> ^<Value^>$(AsmPath)^</Value^> ^</BuildMacro^> ^</ItemGroup^> ^</Project^> > PropertySheet.props
 
