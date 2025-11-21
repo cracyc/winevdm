@@ -28,7 +28,7 @@ jobs:
     - name: Fix PropertySheet.props
       working-directory: ${{env.GITHUB_WORKSPACE}}
       run: |
-           Set-Content -Path $env:RUNNER_TEMP\msys64\usr\bin\as.bat -Encoding ascii -Value "$env:RUNNER_TEMP\msys64\mingw32\as.exe %*"
+           Set-Content -Path $env:RUNNER_TEMP\msys64\usr\bin\as.bat -Encoding ascii -Value "$env:RUNNER_TEMP\msys64\mingw32\bin\as.exe %*"
            & $env:RUNNER_TEMP\msys64\usr\bin\as --version
            & $env:RUNNER_TEMP\msys64\usr\bin\bison --version
            echo "<?xml version=""1.0"" encoding=""utf-8""?> <Project ToolsVersion=""4.0"" xmlns=""http://schemas.microsoft.com/developer/msbuild/2003""> <ImportGroup Label=""PropertySheets"" /> <PropertyGroup Label=""UserMacros""> <AsmPath>$env:RUNNER_TEMP\msys64\usr\bin\</AsmPath> </PropertyGroup> <PropertyGroup> <_PropertySheetDisplayName>MacroPropertySheet</_PropertySheetDisplayName> <IncludePath>`$(SolutionDir)wow32;`$(IncludePath)</IncludePath> </PropertyGroup> <ItemDefinitionGroup> <ClCompile> <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary> <WarningLevel>TurnOffAllWarnings</WarningLevel> </ClCompile> </ItemDefinitionGroup> <ItemGroup> <BuildMacro Include=""AsmPath""> <Value>`$(AsmPath)</Value> </BuildMacro> </ItemGroup> </Project>" > PropertySheet.props
