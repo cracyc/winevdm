@@ -31,12 +31,13 @@ jobs:
            Set-Content -Path $env:RUNNER_TEMP\msys64\usr\bin\as.bat -Encoding ascii -Value "$env:RUNNER_TEMP\msys64\mingw32\bin\as.exe %*"
            & $env:RUNNER_TEMP\msys64\usr\bin\as --version
            & $env:RUNNER_TEMP\msys64\usr\bin\bison --version
-           echo "<?xml version=""1.0"" encoding=""utf-8""?> <Project ToolsVersion=""4.0"" xmlns=""http://schemas.microsoft.com/developer/msbuild/2003""> <ImportGroup Label=""PropertySheets"" /> <PropertyGroup Label=""UserMacros""> <AsmPath>$env:RUNNER_TEMP\msys64\usr\bin\</AsmPath> </PropertyGroup> <PropertyGroup> <_PropertySheetDisplayName>MacroPropertySheet</_PropertySheetDisplayName> <IncludePath>`$(SolutionDir)wow32;`$(IncludePath)</IncludePath> </PropertyGroup> <ItemDefinitionGroup> <ClCompile> <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary> <PreprocessorDefinitions>__CI_VERSION=GITHUB-$env:GITHUB_RUN_NUMBER;%(PreprocessorDefinitions)</PreprocessorDefinitions> <WarningLevel>TurnOffAllWarnings</WarningLevel> </ClCompile> </ItemDefinitionGroup> <ItemGroup> <BuildMacro Include=""AsmPath""> <Value>`$(AsmPath)</Value> </BuildMacro> </ItemGroup> </Project>" > PropertySheet.props
+           echo "<?xml version=""1.0"" encoding=""utf-8""?> <Project ToolsVersion=""4.0"" xmlns=""http://schemas.microsoft.com/developer/msbuild/2003""> <ImportGroup Label=""PropertySheets"" /> <PropertyGroup Label=""UserMacros""> <AsmPath>$env:RUNNER_TEMP\msys64\usr\bin\</AsmPath> </PropertyGroup> <PropertyGroup> <_PropertySheetDisplayName>MacroPropertySheet</_PropertySheetDisplayName> <IncludePath>`$(SolutionDir)wow32;`$(IncludePath)</IncludePath> </PropertyGroup> <ItemDefinitionGroup> <ClCompile> <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary> <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;_CRT_NONSTDC_NO_WARNINGS;__CI_VERSION=GITHUB-$env:GITHUB_RUN_NUMBER;%(PreprocessorDefinitions)</PreprocessorDefinitions> <WarningLevel>TurnOffAllWarnings</WarningLevel> </ClCompile> </ItemDefinitionGroup> <ItemGroup> <BuildMacro Include=""AsmPath""> <Value>`$(AsmPath)</Value> </BuildMacro> </ItemGroup> </Project>" > PropertySheet.props
 
     - name: Build
       working-directory: ${{env.GITHUB_WORKSPACE}}
-      run: msbuild /m /p:Configuration=${{env.BUILD_CONFIGURATION}} ${{env.SOLUTION_FILE_PATH}} /p:WindowsTargetPlatformVersion=10.0 /p:PlatformToolset=v143 /p:PlatformTarget=x86
-      continue-on-error: true
+      run: |
+           msbuild /m /p:Configuration=${{env.BUILD_CONFIGURATION}} ${{env.SOLUTION_FILE_PATH}} /p:WindowsTargetPlatformVersion=10.0 /p:PlatformToolset=v143 /p:PlatformTarget=x86
+           Release/widl
 
     - uses: actions/upload-artifact@master
       with:
