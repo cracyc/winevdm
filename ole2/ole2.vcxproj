@@ -124,11 +124,11 @@ uuid.lib;ole32.lib;user32.lib;gdi32.lib;%(AdditionalDependencies)</AdditionalDep
       </ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
       </ExcludedFromBuild>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">"$(OutDir)widl" ifs.idl -o ifs_16.c -d 10 &amp;&amp; "$(OutDir)widl" ifs.idl -o ifs_16.h -d 10</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">"$(OutDir)widl" ifs.idl -o ifs_16.c &amp;&amp; "$(OutDir)widl" ifs.idl -o ifs_16.h</Command>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">ifs_16.c;ifs_16.h</Outputs>
       <OutputItemType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">None</OutputItemType>
       <TreatOutputAsContent Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</TreatOutputAsContent>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">"$(OutDir)widl" ifs.idl -o ifs_16.c -d 10 &amp;&amp; "$(OutDir)widl" ifs.idl -o ifs_16.h -d 10</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">"$(OutDir)widl" ifs.idl -o ifs_16.c &amp;&amp; "$(OutDir)widl" ifs.idl -o ifs_16.h</Command>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">ifs_16.c;ifs_16.h</Outputs>
       <OutputItemType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">None</OutputItemType>
       <TreatOutputAsContent Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</TreatOutputAsContent>
