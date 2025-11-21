@@ -14,6 +14,7 @@ jobs:
     runs-on: windows-latest
     env: 
       ACTIONS_RUNNER_DEBUG: True
+      ACTIONS_STEP_DEBUG: True
 
     steps:
     - uses: actions/checkout@v4
