@@ -11,10 +11,7 @@ permissions:
 
 jobs:
   build:
-    runs-on: windows-latest
-    env: 
-      ACTIONS_RUNNER_DEBUG: True
-      ACTIONS_STEP_DEBUG: True
+    runs-on: windows-2022
 
     steps:
     - uses: actions/checkout@v4
