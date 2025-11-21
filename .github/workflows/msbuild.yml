@@ -35,4 +35,4 @@ jobs:
 
     - name: Build
       working-directory: ${{env.GITHUB_WORKSPACE}}
-      run: msbuild /m /p:Configuration=${{env.BUILD_CONFIGURATION}} ${{env.SOLUTION_FILE_PATH}} /p:WindowsTargetPlatformVersion=10.0 /p:PlatformToolset=v143 /p:PlatformTarget=x86
+      run: msbuild /m /p:Configuration=${{env.BUILD_CONFIGURATION}} ${{env.SOLUTION_FILE_PATH}} /p:WindowsTargetPlatformVersion=10.0 /p:PlatformToolset=v143 /p:PlatformTarget=x86 /v:detailed
