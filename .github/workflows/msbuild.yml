@@ -10,7 +10,7 @@ permissions:
   contents: read
 
 jobs:
-  build:
+  build-msvc:
     runs-on: windows-latest
 
     steps:
