@@ -39,9 +39,9 @@ jobs:
 
     - name: Prepare package
       working-directory: ${{env.GITHUB_WORKSPACE}}
-      run: tools\package.ps1 -root . -src ${{env.BUILD_CONFIGURATION}} -dst otvdm-github-${{env.GITHUB_BASE_REF}}-${{env.GITHUB_RUN_NUMBER}} -objcopy ${{env.RUNNER_TEMP}}\msys64\mingw32\bin\objcopy.exe -as ${{env.RUNNER_TEMP}}\msys64\mingw32\bin\as.exe
+      run: tools\package.ps1 -root . -src ${{env.BUILD_CONFIGURATION}} -dst otvdm-github-${{github.base_ref}}-${{github.run_number}} -objcopy ${{env.RUNNER_TEMP}}\msys64\mingw32\bin\objcopy.exe -as ${{env.RUNNER_TEMP}}\msys64\mingw32\bin\as.exe
 
     - uses: actions/upload-artifact@master
       with:
-        name: otvdm-github-${{env.GITHUB_BASE_REF}}-${{env.GITHUB_RUN_NUMBER}}
-        path: otvdm-github-${{env.GITHUB_BASE_REF}}-${{env.GITHUB_RUN_NUMBER}}
+        name: otvdm-github-${{github.base_ref}}-${{github.run_number}}
+        path: otvdm-github-${{github.base_ref}}-${{github.run_number}}
