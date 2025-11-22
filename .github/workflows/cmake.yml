@@ -30,7 +30,7 @@ jobs:
       run: |
            mkdir build
            cd build 
-           cmake -G"MSYS Makefiles" -DCMAKE_CXX_FLAGS="-w -Wno-int-conversion" -DCMAKE_C_FLAGS="-w -Wno-int-conversion" ..
+           cmake -G"MSYS Makefiles" -DCMAKE_CXX_FLAGS="-w -Wno-int-conversion -Wno-incompatible-pointer-types" -DCMAKE_C_FLAGS="-w -Wno-int-conversion -Wno-incompatible-pointer-types" ..
            make -j 2
 
     - name: Prepare package
