@@ -213,7 +213,7 @@ LONG          HLPFILE_Hash(LPCSTR lpszContext);
 void          HLPFILE_FreeHlpFile(HLPFILE*);
 HLPFILE_XW *HLPFILE_GetTreeData(HLPFILE *hlpfile, char keyfile);
 void  HLPFILE_BPTreeEnum(BYTE*, HLPFILE_BPTreeCallback cb, void *cookie);
-
+void* HLPFILE_BPTreeSearch(BYTE* buf, const void* key, HLPFILE_BPTreeCompare comp);
 struct RtfData {
     BOOL        in_text;
     char*       data;           /* RTF stream start */
