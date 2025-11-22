@@ -30,8 +30,7 @@ jobs:
       run: |
            mkdir build
            cd build 
-           echo "#!/bin/bash\nas $0 $1 $2 $3 $4 $5 $6 $7" > $RUNNER_TEMP/msys64/usr/bin/as
-           cmake -G"MSYS Makefiles" -DCMAKE_CXX_FLAGS=-w -DCMAKE_C_FLAGS=-w ..
+           cmake -G"MSYS Makefiles" -DCMAKE_CXX_FLAGS="-w -Wint-conversion" -DCMAKE_C_FLAGS="-w -Wint-conversion" ..
            make -j 2
 
     - name: Prepare package
