@@ -37,6 +37,11 @@ jobs:
       working-directory: ${{env.GITHUB_WORKSPACE}}
       run: msbuild /m /p:Configuration=${{env.BUILD_CONFIGURATION}} ${{env.SOLUTION_FILE_PATH}} /p:WindowsTargetPlatformVersion=10.0 /p:PlatformToolset=v143 /p:PlatformTarget=x86
 
+    - name: Prepare package
+      working-directory: ${{env.BUILD_CONFIGURATION}}
+      run: tools/package.ps1 -root . -src ${{env.BUILD_CONFIGURATION}} -dst otvdm-github-${{env.GITHUB_BASE_REF}}-${{env.GITHUB_RUN_NUMBER}} -objcopy ${{env.RUNNER_TEMP}}\msys64\mingw32\bin\objcopy.exe -as ${{env.RUNNER_TEMP}}\msys64\mingw32\bin\as.exe
+
     - uses: actions/upload-artifact@master
       with:
-        path: ${{env.BUILD_CONFIGURATION}}
+        name: otvdm-github-${{env.GITHUB_BASE_REF}}-${{env.GITHUB_RUN_NUMBER}}
+        path: otvdm-github-${{env.GITHUB_BASE_REF}}-${{env.GITHUB_RUN_NUMBER}}
