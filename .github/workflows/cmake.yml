@@ -23,7 +23,7 @@ jobs:
       uses: msys2/setup-msys2@v2
       with:
         msystem: MINGW32
-        install: mingw-w64-i686-gcc bison flex cmake
+        install: mingw-w64-i686-gcc bison flex mingw-w64-i686-cmake 
 
     - name: Build
       working-directory: ${{env.GITHUB_WORKSPACE}}
