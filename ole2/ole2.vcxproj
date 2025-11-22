@@ -128,7 +128,7 @@ uuid.lib;ole32.lib;user32.lib;gdi32.lib;%(AdditionalDependencies)</AdditionalDep
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">ifs_16.c;ifs_16.h</Outputs>
       <OutputItemType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">None</OutputItemType>
       <TreatOutputAsContent Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</TreatOutputAsContent>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">"$(OutDir)widl" ifs.idl -o ifs_16.c &amp;&amp; "$(OutDir)widl" ifs.idl -o ifs_16.h</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">"$(OutDir)widl" ifs.idl -o ifs_16.c -d 255 &amp;&amp; "$(OutDir)widl" ifs.idl -o ifs_16.h -d 255</Command>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">ifs_16.c;ifs_16.h</Outputs>
       <OutputItemType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">None</OutputItemType>
       <TreatOutputAsContent Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</TreatOutputAsContent>
