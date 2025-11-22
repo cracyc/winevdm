@@ -30,7 +30,7 @@ jobs:
       run: |
            mkdir build
            cd build 
-           cmake -G"MSYS Makefiles" -DCMAKE_CXX_FLAGS="-w -Wint-conversion" -DCMAKE_C_FLAGS="-w -Wint-conversion" ..
+           cmake -G"MSYS Makefiles" -DCMAKE_CXX_FLAGS="-w -Wno-int-conversion" -DCMAKE_C_FLAGS="-w -Wno-int-conversion" ..
            make -j 2
 
     - name: Prepare package
