@@ -1,0 +1,48 @@
+name: CMake
+
+on: [push, pull_request]
+
+env:
+  SOLUTION_FILE_PATH: .
+  BUILD_CONFIGURATION: Release
+
+permissions:
+  contents: read
+
+jobs:
+  build-gcc:
+    runs-on: windows-latest
+    defaults:
+      run:
+        shell: msys2 {0}
+
+    steps:
+    - uses: actions/checkout@master
+
+    - name: Add MSYS2
+      uses: msys2/setup-msys2@v2
+      with:
+        msystem: MINGW32
+        install: mingw-w64-i686-gcc bison flex mingw-w64-i686-cmake make 
+
+    - name: Build
+      working-directory: ${{env.GITHUB_WORKSPACE}}
+      run: |
+           mkdir build
+           cd build 
+           cmake -G"MSYS Makefiles" -DCMAKE_CXX_FLAGS="-w -Wno-int-conversion -Wno-incompatible-pointer-types" -DCMAKE_C_FLAGS="-w -Wno-int-conversion -Wno-incompatible-pointer-types" ..
+           make -j 2 -k
+
+    - name: Prepare package
+      working-directory: ${{env.GITHUB_WORKSPACE}}
+      shell: pwsh
+      run: |
+           tools\package.ps1 -root . -src build -dst otvdm-gcc-github-$env:GITHUB_REF_NAME-$env:GITHUB_RUN_NUMBER -objcopy $env:RUNNER_TEMP\msys64\mingw32\bin\objcopy.exe -as $env:RUNNER_TEMP\msys64\mingw32\bin\as.exe
+           copy $env:RUNNER_TEMP\msys64\mingw32\bin\libgcc_s_dw2-1.dll otvdm-gcc-github-$env:GITHUB_REF_NAME-$env:GITHUB_RUN_NUMBER
+           copy $env:RUNNER_TEMP\msys64\mingw32\bin\libstdc++-6.dll otvdm-gcc-github-$env:GITHUB_REF_NAME-$env:GITHUB_RUN_NUMBER
+           copy $env:RUNNER_TEMP\msys64\mingw32\bin\libwinpthread-1.dll otvdm-gcc-github-$env:GITHUB_REF_NAME-$env:GITHUB_RUN_NUMBER
+
+    - uses: actions/upload-artifact@master
+      with:
+        name: otvdm-gcc-github-${{github.ref_name}}-${{github.run_number}}
+        path: otvdm-gcc-github-${{github.ref_name}}-${{github.run_number}}

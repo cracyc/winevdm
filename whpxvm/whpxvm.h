@@ -2,10 +2,10 @@
 #include <stdio.h>
 #include <windows.h>
 #define WHV_PARTITION_HANDLE WHV_PARTITION_HANDLE32 /* hack! */
-#include <WinHvPlatformDefs.h>
+#include "WinHvPlatformDefs.h"
 #undef WHV_PARTITION_HANDLE
 typedef UINT64 WHV_PARTITION_HANDLE;
-#include <WinHvPlatform.h>
+#include "WinHvPlatform.h"
 struct whpx_vcpu_state
 {
     union

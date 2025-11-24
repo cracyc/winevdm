@@ -1,0 +1,47 @@
+name: MSBuild
+
+on: [push, pull_request]
+
+env:
+  SOLUTION_FILE_PATH: .
+  BUILD_CONFIGURATION: Release
+
+permissions:
+  contents: read
+
+jobs:
+  build-msvc:
+    runs-on: windows-latest
+
+    steps:
+    - uses: actions/checkout@master
+
+    - name: Add MSBuild to PATH
+      uses: microsoft/setup-msbuild@v1.0.2
+
+    - name: Add Binutils and Bison
+      uses: msys2/setup-msys2@v2
+      with:
+        msystem: MINGW32
+        install: mingw-w64-i686-binutils bison flex
+
+    - name: Fix PropertySheet.props
+      working-directory: ${{env.GITHUB_WORKSPACE}}
+      run: |
+           Set-Content -Path $env:RUNNER_TEMP\msys64\usr\bin\as.bat -Encoding ascii -Value "$env:RUNNER_TEMP\msys64\mingw32\bin\as.exe %*"
+           & $env:RUNNER_TEMP\msys64\usr\bin\as --version
+           & $env:RUNNER_TEMP\msys64\usr\bin\bison --version
+           echo "<?xml version=""1.0"" encoding=""utf-8""?> <Project ToolsVersion=""4.0"" xmlns=""http://schemas.microsoft.com/developer/msbuild/2003""> <ImportGroup Label=""PropertySheets"" /> <PropertyGroup Label=""UserMacros""> <AsmPath>$env:RUNNER_TEMP\msys64\usr\bin\</AsmPath> </PropertyGroup> <PropertyGroup> <_PropertySheetDisplayName>MacroPropertySheet</_PropertySheetDisplayName> <IncludePath>`$(SolutionDir)wow32;`$(IncludePath)</IncludePath> </PropertyGroup> <ItemDefinitionGroup> <ClCompile> <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary> <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;_CRT_NONSTDC_NO_WARNINGS;__CI_VERSION=GITHUB-$env:GITHUB_RUN_NUMBER;%(PreprocessorDefinitions)</PreprocessorDefinitions> <WarningLevel>TurnOffAllWarnings</WarningLevel> </ClCompile> </ItemDefinitionGroup> <ItemGroup> <BuildMacro Include=""AsmPath""> <Value>`$(AsmPath)</Value> </BuildMacro> </ItemGroup> </Project>" > PropertySheet.props
+
+    - name: Build
+      working-directory: ${{env.GITHUB_WORKSPACE}}
+      run: msbuild /m /p:Configuration=${{env.BUILD_CONFIGURATION}} ${{env.SOLUTION_FILE_PATH}} /p:WindowsTargetPlatformVersion=10.0 /p:PlatformToolset=v143 /p:PlatformTarget=x86
+
+    - name: Prepare package
+      working-directory: ${{env.GITHUB_WORKSPACE}}
+      run: tools\package.ps1 -root . -src ${{env.BUILD_CONFIGURATION}} -dst otvdm-github-${{github.ref_name}}-${{github.run_number}} -objcopy ${{runner.temp}}\msys64\mingw32\bin\objcopy.exe -as ${{runner.temp}}\msys64\mingw32\bin\as.exe
+
+    - uses: actions/upload-artifact@master
+      with:
+        name: otvdm-github-${{github.ref_name}}-${{github.run_number}}
+        path: otvdm-github-${{github.ref_name}}-${{github.run_number}}
