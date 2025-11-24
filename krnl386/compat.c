@@ -1,4 +1,5 @@
 #include <Windows.h>
+#include <stdio.h>
 #include "kernel16_private.h"
 
 // this only currently will get the flags for the first task

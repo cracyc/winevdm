@@ -31,6 +31,7 @@
 #include "kernel16_private.h"
 #include "../toolhelp/toolhelp.h"
 #include "wine/debug.h"
+#include "dosexe.h"
 
 WINE_DEFAULT_DEBUG_CHANNEL(module);
 

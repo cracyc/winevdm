@@ -71,6 +71,9 @@ WINE_DEFAULT_DEBUG_CHANNEL(msg);
 WINE_DECLARE_DEBUG_CHANNEL(message);
 BOOL is_win_menu_disallowed(DWORD style);
 ULONG WINAPI get_windows_build();
+DWORD GetDlgProc16(WORD hWnd16);
+NE_TYPEINFO *get_resource_table(HMODULE16 hmod, LPCSTR type, LPBYTE *restab);
+BYTE get_aflags(HMODULE16 hModule);
 DWORD USER16_AlertableWait = 0;
 static UINT aviwnd_msg = 0;
 static void *aviwnd_cwp;
@@ -3628,7 +3631,7 @@ static LRESULT is_dialog_message_callback(HWND hwnd, UINT msg, WPARAM wp, LPARAM
     MSG16 *msg16 = (MSG16*)arg;
     MSG mesg;
     if (msg == WM_DWMNCRENDERINGCHANGED)
-        return;
+        return 0;
     mesg.hwnd = HWND_32(msg16->hwnd);
     mesg.message = msg;
     mesg.wParam = wp;

@@ -64,7 +64,7 @@ WINHELP_GLOBALS Globals = {3, NULL, TRUE, NULL, NULL, NULL, NULL, NULL, {{{NULL,
 
 DEFINE_GUID(IID_ITextDocument2, 0xc241f5e0, 0x7206, 0x11d8, 0xa2, 0xc7, 0x00, 0xa0, 0xd1, 0xd6, 0xc6, 0xb3);
 
-static void comp_xWBTreeKey(void *p, const void *key, int leaf, void **next);
+static int comp_xWBTreeKey(void *p, const void *key, int leaf, void **next);
 static INT_PTR CALLBACK WINHELP_TopicDlgProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
 
@@ -493,7 +493,7 @@ static BOOL WINHELP_HasWorkingWindow(void)
     return Globals.active_win->page != NULL && Globals.active_win->page->file != NULL;
 }
 
-static void comp_xWBTreeKey(void *p, const void *key, int leaf, void **next)
+static int comp_xWBTreeKey(void *p, const void *key, int leaf, void **next)
 {
     *next = (char*)p + strlen((char*)p) + (leaf?7:3);
     return stricmp(p, key);
@@ -1354,7 +1354,7 @@ static BOOL WINHELP_CheckPopup(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam
     case WM_LBUTTONDOWN:
         if (hWnd == popup->hMainWnd)
         {
-            static inloop = FALSE;
+            static BOOL inloop = FALSE;
             if (inloop)
                 return FALSE;
             inloop = TRUE;
@@ -1590,7 +1590,7 @@ static LRESULT CALLBACK WINHELP_HistoryWndProc(HWND hWnd, UINT msg, WPARAM wPara
     return DefWindowProcW(hWnd, msg, wParam, lParam);
 }
 
-static void comp_TTLBTree(void *p, const void *key, int leaf, void **next)
+static int comp_TTLBTree(void *p, const void *key, int leaf, void **next)
 {
     *next = (char *)p + 5 + (leaf?strlen((char *)p + 4):1);
     if (leaf && (*(DWORD *)*next > key))
@@ -1612,7 +1612,7 @@ static INT_PTR CALLBACK WINHELP_TopicDlgProc(HWND hWnd, UINT msg, WPARAM wParam,
         for (int i = 0; i < id->count; i++)
         {
             DWORD toffset = ((DWORD *)id->offset)[i];
-            BYTE* ptr = HLPFILE_BPTreeSearch(id->hlpfile->ttlbtree, toffset, comp_TTLBTree) + 4;
+            BYTE* ptr = (BYTE *)HLPFILE_BPTreeSearch(id->hlpfile->ttlbtree, toffset, comp_TTLBTree) + 4;
             MultiByteToWideChar(id->hlpfile->codepage, 0, ptr, -1, u16str, 100);
             int idx = SendMessageW(hListWnd, LB_ADDSTRING, 0, (LPARAM)u16str);
             SendMessageW(hListWnd, LB_SETITEMDATA, idx, (LPARAM)toffset);

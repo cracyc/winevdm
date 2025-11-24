@@ -13,6 +13,7 @@ BOOL16 WINAPI NotifyRegister16(HTASK16 htask, FARPROC16 lpfnCallback, WORD wFlag
 BOOL16 WINAPI NotifyUnRegister16(HTASK16 htask);
 BOOL16 WINAPI IsOldWindowsTask(HINSTANCE16 hinst);
 void WINAPI next_intcb(CONTEXT *context);
+BOOL rmpatch_emulate_instruction(CONTEXT *context);
 
 #include <pshpack1.h>
 typedef struct {
@@ -28,7 +29,7 @@ typedef struct {
 BOOL WINAPI checkpatch(WORD id, DWORD data)
 {
 	if (id != 1 /*NFY_LOADSEG*/)
-		return;
+		return 0;
 	NFYLOADSEG *seg = (NFYLOADSEG *)MapSL(data);
 	char *name = (char *)MapSL(seg->lpstrModuleName);
 	if (GetExpWinVer16(GetModuleHandle16(name)) >= 0x300)

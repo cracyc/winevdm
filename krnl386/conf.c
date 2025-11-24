@@ -13,10 +13,10 @@ void init_config()
     DWORD filename_len;
     filename_len = GetModuleFileNameA(GetModuleHandleA(NULL), filename, MAX_PATH);
     if (!filename_len)
-        return 0;
+        return;
     CHAR ininame[] = "otvdm.ini";
     if (_countof(ininame) + filename_len >= MAX_PATH)
-        return 0;
+        return;
     LPSTR last = strrchr(filename, '\\');
     memcpy(last + 1, ininame, sizeof(ininame));
 

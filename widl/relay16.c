@@ -1510,7 +1510,6 @@ static void write_args16_str(FILE *header, const var_list_t *args)
             fprintf(header, "ll");
         }
     }
-    return NULL;
 }
 static void do_write_vtable16(FILE *header, const type_t *iface, const char *name)
 {

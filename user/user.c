@@ -75,6 +75,9 @@ struct gray_string_info
 };
 /* KRNL386 */
 BOOL16 WINAPI IsOldWindowsTask(HINSTANCE16 hInst);
+void *GetPtr16(WORD hdl16, int type);
+void SetPtr16(WORD hdl16, void *ptr, int type);
+void GLOBAL_SetSeg(HGLOBAL16 hg, WORD wSeg, WORD type);
 
 /* callback for 16-bit gray string proc with opaque pointer */
 static BOOL CALLBACK gray_string_callback( HDC hdc, LPARAM param, INT len )
@@ -1384,15 +1387,13 @@ static BOOL is_builtin_winhlp32_stub()
 #ifndef FILE_VER_GET_NEUTRAL
 #define FILE_VER_GET_NEUTRAL 0x02
 #endif
-#ifndef GetFileVersionInfoSizeEx
         typedef BOOL (WINAPI*GetFileVersionInfoExW_t)(LPCWSTR lptstrFilename, LPDWORD lpdwHandle, DWORD dwHandle,DWORD dwLen, LPVOID lpData);
-        static GetFileVersionInfoExW_t GetFileVersionInfoExW;
-        if (!GetFileVersionInfoExW)
+        static GetFileVersionInfoExW_t pGetFileVersionInfoExW;
+        if (!pGetFileVersionInfoExW)
         {
-            GetFileVersionInfoExW = (GetFileVersionInfoExW_t)GetProcAddress(GetModuleHandleA("version"), "GetFileVersionInfoExW");
+            pGetFileVersionInfoExW = (GetFileVersionInfoExW_t)GetProcAddress(GetModuleHandleA("version"), "GetFileVersionInfoExW");
         }
-#endif
-        if (GetFileVersionInfoExW(FILE_VER_GET_NEUTRAL, winhlp32, 0, size, vd))
+        if (pGetFileVersionInfoExW && pGetFileVersionInfoExW(FILE_VER_GET_NEUTRAL, winhlp32, 0, size, vd))
         {
             WCHAR *internalname = NULL;
             UINT ulen;

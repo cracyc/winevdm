@@ -34,6 +34,7 @@
 
 static WORD dosmem_0040H = 0; 
 static WORD dosmem_0000H = 0;
+void DOSVM_start_bios_timer(void);
 
 static inline void add_stack(CONTEXT *context, int offset)
 {
@@ -364,7 +365,7 @@ BOOL rmpatch_emulate_instruction(CONTEXT *context)
             if (!segprefix)
             {
                 context->SegEs = dosmem_0000H;
-                return;
+                return TRUE;
             }
             break;
         case 0x64:

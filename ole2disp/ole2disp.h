@@ -28,7 +28,9 @@
 #include "wine/windef16.h"
 #include "wine/winbase16.h"
 #include "../ole2/ifs.h"
+#define __oaidl_h__
 #include "wine/debug.h"
+#undef __oaidl_h__
 
 typedef CHAR OLECHAR16;
 typedef LPSTR LPOLESTR16;

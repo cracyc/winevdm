@@ -153,6 +153,7 @@ BOOL16 VFWAPI DrawDibStop16(HDRAWDIB16 hdd)
 }
 
 BOOL16 WINAPI ICInstall16(DWORD fccType, DWORD fccHandler, LPARAM lParam, LPSTR szDesc, UINT16 wFlags);
+LPCSTR RedirectSystemDir(LPCSTR path, LPSTR to, size_t max_len);
 /***********************************************************************
  *		ICOpen				[MSVIDEO.203]
  */

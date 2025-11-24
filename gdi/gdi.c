@@ -55,6 +55,8 @@ void WINAPI K32WOWHandle16Destroy(HANDLE handle, WOW_HANDLE_TYPE type);
 static BYTE fix_font_charset(BYTE charset);
 int WINAPI set_realized_palette(HDC hdc);
 HPALETTE WINAPI get_realized_palette();
+void SetPtr16(WORD hdl16, void *ptr, int type);
+void *GetPtr16(WORD hdl16, int type);
 
 struct saved_visrgn
 {
@@ -3802,7 +3804,7 @@ UINT16 WINAPI GetPaletteEntries16( HPALETTE16 hpalette, UINT16 start,
     return GetPaletteEntries( HPALETTE_32(hpalette), start, count, entries );
 }
 
-static WINAPI paint_all_windows(HWND hwnd, LPARAM lparam)
+static BOOL WINAPI paint_all_windows(HWND hwnd, LPARAM lparam)
 {
     BOOL found = FALSE;
     DWORD *wndlist = (DWORD *)lparam;
@@ -3819,7 +3821,7 @@ static WINAPI paint_all_windows(HWND hwnd, LPARAM lparam)
     return FALSE;
 }
 
-BOOL update_palette(HPALETTE16 hpalette)
+void update_palette(HPALETTE16 hpalette)
 {
     HPALETTE hpal32 = HPALETTE_32(hpalette);
     if (GetObjectType(hpal32) != OBJ_PAL) return;
@@ -5401,7 +5403,7 @@ BOOL16 WINAPI IsDCDirty16(WORD arg1, SEGPTR arg2)
 void WINAPI UnicodeToAnsi16(SEGPTR arg1, SEGPTR arg2)
 {
     FIXME("(%08x,%08x)\n", arg1, arg2);
-    return 0;
+    return;
 }
 void WINAPI ShrinkGdiHeap16()
 {

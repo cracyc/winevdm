@@ -22,13 +22,13 @@
 #define NONAMELESSUNION
 #define NONAMELESSSTRUCT
 
-#include "wine/debug.h"
 #include "wine/unicode.h"
 #include "winbase.h"
 #include "winuser.h"
 #include "winnt.h"
 #include "variant.h"
 #include "resource.h"
+#include "wine/debug.h"
 #include <stdio.h>
 #include <string.h>
 
