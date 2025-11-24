@@ -662,8 +662,8 @@ static void TLB_register_interface(TLIBATTR *libattr, LPOLESTR name, TYPEATTR *t
  */
 HRESULT WINAPI RegisterTypeLib(
      ITypeLib * ptlib,     /* [in] Pointer to the library*/
-     OLECHAR * szFullPath, /* [in] full Path of the library*/
-     OLECHAR * szHelpDir)  /* [in] dir to the helpfile for the library,
+     const OLECHAR * szFullPath, /* [in] full Path of the library*/
+     const OLECHAR * szHelpDir)  /* [in] dir to the helpfile for the library,
 							 may be NULL*/
 {
     HRESULT res;

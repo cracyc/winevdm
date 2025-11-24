@@ -89,6 +89,8 @@ static SEGPTR pe_buffer_seg;
 static SEGPTR dbuffer_seg;
 
 extern int WINAPI WS_gethostname(char *name, int namelen);
+PVOID setWOW32Reserved(PVOID w);
+PVOID getWOW32Reserved();
 
 static fd_set *ws_fdset_16_to_32( const ws_fd_set16 *set16, fd_set *set32 )
 {

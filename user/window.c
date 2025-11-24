@@ -64,6 +64,8 @@ BOOL16 WINAPI IsOldWindowsTask(HINSTANCE16 hInst);
 BYTE get_aflags(HMODULE16 hModule);
 ULONG WINAPI get_windows_build();
 LRESULT CALLBACK WindowProc16(HWND hDlg, UINT Msg, WPARAM wParam, LPARAM lParam);
+DWORD GetDlgProc16(WORD hWnd16);
+void SetDlgProc16(WORD hWnd16, DWORD WndProc);
 /* size of buffer needed to store an atom string */
 #define ATOM_BUFFER_SIZE 256
 

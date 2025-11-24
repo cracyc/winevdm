@@ -43,6 +43,7 @@
 #include "shellapi.h"
 #include "shlwapi.h"
 #include "../toolhelp/toolhelp.h"
+#include "dosexe.h"
 
 WINE_DEFAULT_DEBUG_CHANNEL(module);
 WINE_DECLARE_DEBUG_CHANNEL(loaddll);

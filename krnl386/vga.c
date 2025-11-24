@@ -976,7 +976,7 @@ void VGA_SetPalette(PALETTEENTRY *pal, int start, int len)
     if (!vga_palette)
     {
         ERR("vga_palette == NULL\n");
-        return NULL;
+        return;
     }
     memcpy(vga_palette + start, pal, len * sizeof(*pal));
 }
@@ -1908,7 +1908,7 @@ static LRESULT WINAPI VGA_WindowProc(HWND hWnd, UINT Msg, WPARAM wParam, LPARAM 
     {
     case WM_PAINT:
         paint_bitmap();
-        return;
+        return 0;
     default:
         break;
     }
@@ -1920,7 +1920,7 @@ static DWORD WINAPI init_vga_window()
     ModeSet *par = (ModeSet *)&vga_mode;
     RECT rect = { 0, 0, par->Xres, par->Yres };
     if (par->Xres == 0)
-        return;
+        return 0;
     if (vga_hwnd)
         return 0;
     wc.style = CS_HREDRAW | CS_VREDRAW | CS_NOCLOSE | CS_OWNDC;
@@ -1936,7 +1936,7 @@ static DWORD WINAPI init_vga_window()
     if (!vga_hwnd)
     {
         ERR("Failed to create VGA window.\n");
-        return;
+        return 0;
     }
     vga_dc = CreateCompatibleDC(GetDC(vga_hwnd));
     vga_bitmap = CreateCompatibleBitmap(GetDC(NULL), par->Xres, par->Yres);
@@ -1949,7 +1949,7 @@ static DWORD WINAPI init_vga_window()
     if (!vga_bitmap)
     {
         ERR("Failed to create vga_bitmap\n");
-        return;
+        return 0;
     }
     return 0;
 }

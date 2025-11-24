@@ -673,7 +673,7 @@ static WORD LOCAL_ShrinkArena( WORD ds, WORD arena, WORD size, BOOL fromend )
     if (arena + size + LALIGN(sizeof(LOCALARENA)) < pArena->next)
     {
         LOCALHEAPINFO *pInfo = LOCAL_GetHeap( ds );
-        if (!pInfo) return;
+        if (!pInfo) return 0;
         pInfo->items++;
         if (!fromend)
         {

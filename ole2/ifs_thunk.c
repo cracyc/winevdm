@@ -647,7 +647,7 @@ void map_stgmedium32_16_2(STGMEDIUM16 *a16, const STGMEDIUM *a32, BOOL fixme)
 
         if (pict32)
         {
-            if (!(data16 = GlobalAlloc16(GMEM_MOVEABLE, sizeof(*pict16)))) return 0;
+            if (!(data16 = GlobalAlloc16(GMEM_MOVEABLE, sizeof(*pict16)))) break;
             pict16 = GlobalLock16(data16);
             pict16->mm = pict32->mm;
             pict16->xExt = pict32->xExt;
@@ -735,7 +735,7 @@ void map_stgmedium16_32_2(STGMEDIUM *a32, const STGMEDIUM16 *a16, BOOL fixme)
         a32->hGlobal = NULL;
         if (pict16)
         {
-            if (!(data32 = GlobalAlloc(GMEM_MOVEABLE, sizeof(*pict32)))) return 0;
+            if (!(data32 = GlobalAlloc(GMEM_MOVEABLE, sizeof(*pict32)))) break;
             pict32 = GlobalLock(data32);
             pict32->mm = pict16->mm;
             pict32->xExt = pict16->xExt;

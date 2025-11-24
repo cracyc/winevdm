@@ -3,6 +3,10 @@
 #include "../krnl386/kernel16_private.h"
 #include "wownt32.h"
 
+#ifdef __GNUC__
+#include "cpuid.h"
+#endif
+
 BOOL initflag;
 UINT8 *mem;
 #define KRNL386 "krnl386.exe16"

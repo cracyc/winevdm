@@ -401,7 +401,7 @@ BOOL16 WINAPI DeleteDosFileHandle( HANDLE handle )
 {
     int i;
 
-    if (!handle || (handle == INVALID_HANDLE_VALUE)) return;
+    if (!handle || (handle == INVALID_HANDLE_VALUE)) return FALSE;
 
     HANDLE *dos_handles = FILE_GetTable();
     for (i = 5; i < DOS_TABLE_SIZE; i++)

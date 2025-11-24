@@ -108,6 +108,7 @@ static INTPROC oldproc = 0;
 
 typedef void (*load_x87function_t)(x87function *func);
 static void WINAPI fpu_exception(CONTEXT *context);
+void * DOSVM_SetBuiltinVector(BYTE intnum, INTPROC handler);
 BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpReserved)
 {
     if (fdwReason == DLL_PROCESS_DETACH)
@@ -528,7 +529,7 @@ void WINAPI __WinEm87Info(struct Win87EmInfoStruct *pWIS, int cbWin87EmInfoStruc
     //unknown
     pWIS->WinCodeSeg = C;
     pWIS->WinDataSeg = D;
-    return 0;
+    return;
 }
 
 /***********************************************************************

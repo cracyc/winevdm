@@ -3076,7 +3076,7 @@ static void HLPFILE_ReadCntFile(HLPFILE *hlpfile)
 
     h = CreateFileA(hlpfile->lpszCntPath, GENERIC_READ, FILE_SHARE_READ,
                    NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
-    if (h == INVALID_HANDLE_VALUE) return NULL;
+    if (h == INVALID_HANDLE_VALUE) return;
 
     len = GetFileSize(h, NULL);
     if (len == INVALID_FILE_SIZE)

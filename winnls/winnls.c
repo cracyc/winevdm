@@ -25,9 +25,9 @@
 #include <imm.h>
 #include "wownt32.h"
 #include "wine/winuser16.h"
+#include "wine/debug.h"
 
 WINE_DEFAULT_DEBUG_CHANNEL(winnls);
-WINE_DECLARE_DEBUG_CHANNEL(winnls);
 //BOOL WINAPI WINNLS32EnableIME(HWND hWnd, BOOL fEnable);
 //BOOL WINAPI WINNLS32GetEnableStatus(HWND hWnd);
 
@@ -47,8 +47,7 @@ BOOL WINAPI WINNLSGetEnableStatus16( HWND16 hwnd )
     return WINNLSGetEnableStatus( HWND_32(hwnd) );
 }
 #include "ime.h"
-#include "wine/debug.h"
-WINE_DEFAULT_DEBUG_CHANNEL(nls);
+
 #include <pshpack1.h>
 typedef struct _tagIMEPRO16 {
 	HWND16      hWnd;

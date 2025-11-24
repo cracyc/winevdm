@@ -24,7 +24,7 @@
 #include <stdarg.h>
 #include <windef.h>
 #include <winbase.h>
-#include <winternl.h>
+#include "winternl.h"
 #include <wine/server_protocol.h>
 
 /* client communication functions */
@@ -56,13 +56,14 @@ extern int CDECL wine_server_handle_to_fd( HANDLE handle, unsigned int access, i
 extern void CDECL wine_server_release_fd( HANDLE handle, int unix_fd );
 
 /* do a server call and set the last error code */
+/*
 static inline unsigned int wine_server_call_err( void *req_ptr )
 {
     unsigned int res = wine_server_call( req_ptr );
     if (res) SetLastError( RtlNtStatusToDosError(res) );
     return res;
 }
-
+*/
 /* get the size of the variable part of the returned reply */
 static inline data_size_t wine_server_reply_size( const void *reply )
 {

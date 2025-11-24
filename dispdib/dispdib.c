@@ -46,6 +46,8 @@ static BOOL vsync = FALSE;
 static BOOL hsync = FALSE;
 static LPVOID vram;
 
+void *DOSVM_SetBuiltinVector(BYTE intnum, INTPROC handler);
+
 static void draw()
 {
     RECT rect;

@@ -222,7 +222,7 @@ static DWORD WINAPI play(LPVOID param)
   const float mspersamp = 1000.0f / 48000.0f;
   for (int i = 0; i < nextnote; i++)
     len += (float)(queue[i].duration + queue[i].interstice) / mspersamp;
-  if (!len) return;
+  if (!len) return 0;
  
   int buflen = len;
   char *wavbuf = (char *)HeapAlloc(GetProcessHeap(), 0, buflen);

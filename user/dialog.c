@@ -22,6 +22,7 @@
 #include "wine/port.h"
 
 #include <stdarg.h>
+#include <stdio.h>
 
 #include "windef.h"
 #include "winbase.h"
@@ -51,6 +52,8 @@ typedef struct
 #include <poppack.h>
 void free_proc_thunk(DLGPROCTHUNK *thunk);
 BYTE get_aflags(HMODULE16 hModule);
+void SetDlgProc16(WORD hWnd16, DWORD WndProc);
+DWORD GetDlgProc16(WORD hWnd16);
 
 /* Dialog control information */
 typedef struct
