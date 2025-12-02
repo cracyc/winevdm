@@ -1,7 +1,8 @@
 #include <Windows.h>
-static BOOL init;
+#include "wine/winbase16.h"
 
-static CHAR filename[MAX_PATH];
+__declspec(thread) static BOOL init = FALSE;
+__declspec(thread) static CHAR filename[MAX_PATH];
 static CRITICAL_SECTION critical_section;
 DWORD WINAPI krnl386_get_config_string(LPCSTR appname, LPCSTR keyname, LPCSTR def, LPSTR ret, DWORD size);
 DWORD WINAPI krnl386_get_config_int(LPCSTR appname, LPCSTR keyname, INT def);
@@ -11,9 +12,13 @@ void init_config()
     InitializeCriticalSection(&critical_section);
     EnterCriticalSection(&critical_section);
     DWORD filename_len;
-    filename_len = GetModuleFileNameA(GetModuleHandleA(NULL), filename, MAX_PATH);
+    filename_len = GetModuleFileName16(NULL, filename, MAX_PATH);
     if (!filename_len)
-        return 0;
+    {
+        filename_len = GetModuleFileNameA(GetModuleHandleA(NULL), filename, MAX_PATH);
+        if (!filename_len)
+            return 0;
+    }
     CHAR ininame[] = "otvdm.ini";
     if (_countof(ininame) + filename_len >= MAX_PATH)
         return 0;

@@ -890,8 +890,6 @@ int entry_point( int argc, char *argv[] )
     LoadLibrary16( "mmsystem.dll" );
     LoadLibrary16( "shell.dll" );
 
-    krnl386_set_compat_path(appname);
-
     if (krnl386_get_config_int("otvdm", "EnableVisualStyle", FALSE))
     {
         ACTCTXA actctx = { 0 };
