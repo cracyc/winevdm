@@ -17,7 +17,7 @@ void init_config()
     {
         filename_len = GetModuleFileNameA(GetModuleHandleA(NULL), filename, MAX_PATH);
         if (!filename_len)
-            return 0;
+            return;
     }
     CHAR ininame[] = "otvdm.ini";
     if (_countof(ininame) + filename_len >= MAX_PATH)
