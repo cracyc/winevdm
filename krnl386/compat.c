@@ -4,19 +4,9 @@
 
 // this only currently will get the flags for the first task
 // it might be work on a per-task basis
-static char modes[256];
+__declspec(thread) static char modes[256];
+__declspec(thread) static BOOL init = FALSE;
 
-BOOL WINAPI krnl386_get_compat_mode(const LPCSTR mode)
-{
-    int size = strlen(mode);
-    if (size >= 256)
-        return FALSE;
-    char lowermode[256];
-    for (int i = 0; i < size; i++)
-        lowermode[i] = tolower(mode[i]);
-    lowermode[size] = '\0';
-    return strstr(modes, lowermode) ? TRUE : FALSE;
-}
 
 void WINAPI krnl386_set_compat_path(const LPCSTR path)
 {
@@ -82,6 +72,25 @@ void WINAPI krnl386_set_compat_path(const LPCSTR path)
     return;
 }
 
+BOOL WINAPI krnl386_get_compat_mode(const LPCSTR mode)
+{
+    if (!init)
+    {
+        char filename[MAX_PATH];
+        GetModuleFileName16(NULL, filename, MAX_PATH);
+        GetLongPathNameA(filename, filename, MAX_PATH);
+        krnl386_set_compat_path(filename);
+        init = TRUE;
+    }
+    int size = strlen(mode);
+    if (size >= 256)
+        return FALSE;
+    char lowermode[256];
+    for (int i = 0; i < size; i++)
+        lowermode[i] = tolower(mode[i]);
+    lowermode[size] = '\0';
+    return strstr(modes, lowermode) ? TRUE : FALSE;
+}
 ULONG WINAPI get_windows_build()
 {
     static ULONG build = 0;
