@@ -1,4 +1,5 @@
 #include <Windows.h>
+#include <shlwapi.h>
 #include "wine/winbase16.h"
 
 __declspec(thread) static BOOL init = FALSE;
@@ -8,23 +9,28 @@ DWORD WINAPI krnl386_get_config_string(LPCSTR appname, LPCSTR keyname, LPCSTR de
 DWORD WINAPI krnl386_get_config_int(LPCSTR appname, LPCSTR keyname, INT def);
 void init_config()
 {
+    BOOL globalini = FALSE;
     init = TRUE;
     InitializeCriticalSection(&critical_section);
     EnterCriticalSection(&critical_section);
     DWORD filename_len;
     filename_len = GetModuleFileName16(NULL, filename, MAX_PATH);
-    if (!filename_len)
+tryagain:
+    if (filename_len)
     {
-        filename_len = GetModuleFileNameA(GetModuleHandleA(NULL), filename, MAX_PATH);
-        if (!filename_len)
-            return 0;
+        CHAR ininame[] = "otvdm.ini";
+        if (_countof(ininame) + filename_len >= MAX_PATH)
+            goto out;
+        LPSTR last = strrchr(filename, '\\');
+        memcpy(last + 1, ininame, sizeof(ininame));
     }
-    CHAR ininame[] = "otvdm.ini";
-    if (_countof(ininame) + filename_len >= MAX_PATH)
-        return 0;
-    LPSTR last = strrchr(filename, '\\');
-    memcpy(last + 1, ininame, sizeof(ininame));
-
+    if (!globalini && !PathFileExistsA(filename))
+    {
+        globalini = TRUE;
+        filename_len = GetModuleFileNameA(GetModuleHandleA(NULL), filename, MAX_PATH);
+        goto tryagain;
+    }
+out:
     LeaveCriticalSection(&critical_section);
 }
 DWORD WINAPI krnl386_get_config_string(LPCSTR appname, LPCSTR keyname, LPCSTR def, LPSTR ret, DWORD size)
